@@ -3,106 +3,11 @@
     <i class="bi bi-plus-lg"></i> Tambah Gambar
 </button>
     <div class="row">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>No</th>
-                        <th>Gambar</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $sql = "SELECT * FROM gallery ORDER BY tanggal DESC";
-                    $hasil = $conn->query($sql);
+    <div class="table-responsive" id="gallery_data">
+            
+            </div>
 
-                    $no = 1;
-                    while ($row = $hasil->fetch_assoc()) {
-                    ?>
-                        <tr>
-                            <td><?= $no++ ?></td>
-                            <td>
-                                <?php
-                                if ($row["gambar"] != '') {
-                                    if (file_exists('img/' . $row["gambar"] . '')) {
-                                ?>
-                                        <img src="img/<?= $row["gambar"] ?>" width="150">
-                                <?php
-                                    }
-                                }
-                                ?>
-                            </td>
-                            <td>
-                                <a href="#" title="edit" class="badge rounded-pill text-bg-success" data-bs-toggle="modal" data-bs-target="#modalEdit<?= $row["id"] ?>"><i class="bi bi-pencil"></i></a>
-                                <a href="#" title="delete" class="badge rounded-pill text-bg-danger" data-bs-toggle="modal" data-bs-target="#modalHapus<?= $row["id"] ?>"><i class="bi bi-x-circle"></i></a>
-                            
-                                <div class="modal fade" id="modalEdit<?= $row["id"] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Edit Gambar</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <form method="post" action="" enctype="multipart/form-data">
-                                                <div class="modal-body">
-                                                    <div class="mb-3">
-                                                        <label for="formGroupExampleInput2" class="form-label">Ganti Gambar</label>
-                                                        <input type="file" class="form-control" name="gambar">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="formGroupExampleInput3" class="form-label">Gambar Lama</label>
-                                                        <?php
-                                                        if ($row["gambar"] != '') {
-                                                            if (file_exists('img/' . $row["gambar"] . '')) {
-                                                        ?>
-                                                                <br><img src="img/<?= $row["gambar"] ?>" width="150">
-                                                        <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                        <input type="hidden" name="gambar_lama" value="<?= $row["gambar"] ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <input type="submit" value="simpan" name="Simpan" class="btn btn-primary">
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="modalHapus<?= $row["id"] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Konfirmasi Hapus Gambar</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <form method="post" action="" enctype="multipart/form-data">
-                                                <div class="modal-body">
-                                                    <div class="mb-3">
-                                                        <label for="formGroupExampleInput" class="form-label">Yakin akan menghapus gambar ini?</label>
-                                                        <input type="hidden" name="id" value="<?= $row["id"] ?>">
-                                                        <input type="hidden" name="gambar" value="<?= $row["gambar"] ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                    <input type="submit" value="hapus" name="Hapus" class="btn btn-primary">
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
+<!-- Awal Modal Tambah-->      
         </div>
         <div class="modal fade" id="modalTambah" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -128,6 +33,28 @@
         </div>
     </div>
 </div>
+
+<script>
+$(document).ready(function(){
+    load_data();
+    function load_data(hlm){
+        $.ajax({
+            url : "gallery_data.php",
+            method : "POST",
+            data : {
+					            hlm: hlm
+				           },
+            success : function(data){
+                    $('#gallery_data').html(data);
+            }
+        })
+    } 
+    $(document).on('click', '.halaman', function(){
+    var hlm = $(this).attr("id");
+    load_data(hlm);
+});
+});
+</script>
 
 <?php
 include "upload_foto.php";
