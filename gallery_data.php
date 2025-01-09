@@ -93,13 +93,13 @@
                                 <form method="post" action="" enctype="multipart/form-data">
                                     <div class="modal-body">
                                         <div class="mb-3">
-                                            <label for="formGroupExampleInput" class="form-label">Yakin akan menghapus Gambar "<strong><?= $row["judul"] ?></strong>"?</label>
+                                            <label for="formGroupExampleInput" class="form-label">Yakin akan menghapus Gambar</label>
                                             <input type="hidden" name="id" value="<?= $row["id"] ?>">
                                             <input type="hidden" name="gambar" value="<?= $row["gambar"] ?>">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">batal</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                                         <input type="submit" value="hapus" name="hapus" class="btn btn-primary">
                                     </div>
                                 </form>
