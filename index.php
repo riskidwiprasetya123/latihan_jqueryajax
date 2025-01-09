@@ -36,7 +36,7 @@ include "koneksi.php";
           <a class="nav-link" href="#schedule">Schedule</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#about">About Me</a>
+          <a class="nav-link" href="#aboutme">About Me</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="login.php" target="_blank">Login</a>
